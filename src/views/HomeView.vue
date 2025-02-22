@@ -3,6 +3,26 @@
     <div class="flex justify-center items-center mt-8">
       <h1 class="text-5xl text-red-500">Rick y Morty</h1>
     </div>
+    
+
+      <div class="flex justify-center">
+        <input type="text" placeholder="Search" v-model="searchName" class="mx-10 mt-10 rounded-md border-2 border-gray-300 px-4 py-2 focus:outline-none focus:border-blue-500 align-middle" />
+      </div>
+
+        <div class="flex justify-center">
+          <button 
+          v-for="status in statusFilters"
+          :class="['bg-black text-white p-2 rounded-full m-2 h-10 align-middle',
+          searchStatus === status ? 'bg-red-500' : 'bg-black']"
+            @click="searchByStatus(status)"
+            
+            >{{ status }}
+              
+          </button>
+
+        </div>
+    
+
 
     <div class="flex justify-center mt-5">
 
@@ -17,7 +37,7 @@
 
 
     <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 justify-center gap-4 mt-24 mx-10" >
-      <div  v-for="character in characters" :key="characters.id"  class="rounded-2xl  overflow-hidden  shadow-2xl "  >
+      <div  v-for="character in filteredCharacters" :key="characters.id"  class="rounded-2xl  overflow-hidden  shadow-2xl "  >
           <div @click="seeCharacterDetails(character.id)">
             <img :src="character.image" :alt="character.name"  class="" />
                   <div class="text-center">
@@ -33,12 +53,31 @@
 
 <script setup lang="ts">
 
-    import { onMounted, ref } from 'vue'
+    import { onMounted, ref, computed} from 'vue'
     import { useRouter } from 'vue-router'
 
     const router = useRouter()
     const characters = ref([])
+    const searchName = ref('')
+    const searchStatus = ref('Todos')
     const page:any = ref(1)
+
+    const statusFilters = ['Todos','Alive','Dead', 'unknown' ]
+
+    const filteredCharacters = computed(()=>{
+      return characters.value.filter((character:any) => {
+        const matchName = character.name.toLowerCase().includes(searchName.value.toLowerCase())
+        return matchName              
+      })
+
+    })
+
+
+    const searchByStatus = (status:string) => {
+    console.log(status)
+    searchStatus.value = status; // Actualiza el estado seleccionado
+
+    }
 
     const loadCharacters = async () => {
       const response = await fetch(`https://rickandmortyapi.com/api/character?page=${page.value}`)
