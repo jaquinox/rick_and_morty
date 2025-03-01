@@ -105,10 +105,10 @@
     const decrementPage = () => {
       if(page.value > 1){
         page.value--
-        loadCharacters()  
+        loadCharacters()   
       }else{
         page.value = 1
-        loadCharacters()
+        loadCharacters() 
       }
     }
 
