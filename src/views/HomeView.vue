@@ -67,16 +67,19 @@
     const filteredCharacters = computed(()=>{
       return characters.value.filter((character:any) => {
         const matchName = character.name.toLowerCase().includes(searchName.value.toLowerCase())
-        return matchName              
+
+        const matchStatus = searchStatus.value === 'Todos' || character.status === searchStatus.value
+
+        return matchName  && matchStatus
+            
       })
 
     })
 
 
     const searchByStatus = (status:string) => {
-    console.log(status)
-    searchStatus.value = status; // Actualiza el estado seleccionado
-
+      console.log(status)
+      searchStatus.value = status; // Actualiza el estado seleccionado
     }
 
     const loadCharacters = async () => {
