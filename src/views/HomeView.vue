@@ -1,4 +1,5 @@
 <template>
+  <!---->
   <main>
     <div class="flex justify-center items-center mt-8">
       <h1 class="text-5xl text-red-500">Rick y Morty</h1>
