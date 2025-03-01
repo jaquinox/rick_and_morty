@@ -81,7 +81,7 @@ const loadCharacters = async () => {
 
 onMounted(() => {
   loadCharacters()
-})
+})    
 
 const incrementPage = () => {
   page.value++
